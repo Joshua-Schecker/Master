@@ -5,14 +5,25 @@ import java.text.*;
 
 class CalendarParse
 {
+  /**
+* This is the main method which makes use of addNum method.
+* @param args path/filename of .ics file.
+* @return Nothing.
+* @exception Exception FileNotFound error.
+* @see FileNotFoundException
+*/
   public static void main(String[] args)throws Exception
   {
-    ArrayList<Event> events=populate();
+    ArrayList<Event> events=parse(args);
     Collections.sort(events);
     toCSV(events);
     System.out.println(events.size());
   }
-
+  /**
+  * This method is used to create a .csv output file.
+  * @param list This is the list of parsed Events.
+  * @return Nothing.
+  */
   static void toCSV(ArrayList<Event> list) throws Exception
   {
     PrintWriter pw=new PrintWriter("output.csv");
@@ -22,11 +33,16 @@ class CalendarParse
     }
     pw.close();
   }
-
-  static ArrayList<Event> populate() throws Exception
+  /**
+  * This method is used to create an ArrayList
+  * of Events from an .ics file. Does not consider reminders.
+  * @param args This is the path/name of the .ics file.
+  * @return ArrayList<Event> This returns a list populated with Events.
+  */
+  static ArrayList<Event> parse(String[] args) throws Exception
   {
     ArrayList<Event> out=new ArrayList<Event>();
-    Scanner sc=new Scanner(new File("joshs3.ics"));
+    Scanner sc=new Scanner(new File(args[0]));
     String owner="";
     String line;
     String st;
@@ -83,7 +99,12 @@ class Event implements Comparable<Event>
   String attendees="";
   String summary=" ";
   String date;
-
+  /**
+  * This is the Constructor.
+  * @param st start date.
+  * @param et end date.
+  * @param owner email of calendar owner.
+  */
   public Event(String st, String et, String owner)
   {
     try
@@ -96,10 +117,20 @@ class Event implements Comparable<Event>
               String.valueOf(startDate.getYear()+1900);
     this.owner=owner;
   }
+  /**
+  * This method adds an email to the list of attendees.
+  * @param s email.
+  * @return Nothing.
+  */
   public void add(String s)
   {
     attendees+=" "+s;
   }
+  /**
+  * This prints out the start date, end date, duration, summary
+  * and attendees of this event.
+  * @return Nothing.
+  */
   @Override
   public String toString()
   {
@@ -107,6 +138,10 @@ class Event implements Comparable<Event>
       return date+","+String.valueOf(difference)+","+attendees+","+summary;
 
   }
+  /**
+  * This method is used to compare events based on earliest start date.
+  * @return int -1 if less than, 0 if equal, 1 is greater than.
+  */
   @Override
   public int compareTo(Event e)
   {
