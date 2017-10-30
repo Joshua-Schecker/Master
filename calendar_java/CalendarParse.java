@@ -2,7 +2,16 @@ import java.util.*;
 import java.io.*;
 import java.time.*;
 import java.text.*;
-
+/**
+* The CalendarParse program implements an application that
+* reads a .ics calendar file and prints the events in chronological order
+* into a .csv file. Each row corresponds to an event and has the columns:
+* date, duration, participants, summary.
+* <p>
+* @author  Josh Schecker
+* @version 1.0
+* @since   2017-10-05
+*/
 class CalendarParse
 {
   /**
@@ -45,7 +54,7 @@ class CalendarParse
     Scanner sc=new Scanner(new File(args[0]));
     String owner="";
     String line;
-    String st;
+    String st; 
     String et;
     boolean go=false;
     Event temp;
